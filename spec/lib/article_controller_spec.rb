@@ -5,8 +5,8 @@ require "./lib/role"
 require "./lib/user"
 
 RSpec.describe ArticleController do
-  let(:account) { Account.new("Acme") }
   let(:user) { User.new("John") }
+  let(:account) { Account.new("Acme") }
   let(:controller) { described_class.new(user, account) }
 
   describe "#create" do
@@ -18,8 +18,8 @@ RSpec.describe ArticleController do
       end
     end
 
-    context "with a create ANY article permission" do
-      let(:permission) { Permission.new(:create, Article) }
+    context "with a create article permission in ANY account" do
+      let(:permission) { Permission.new(:create_article, Account) }
 
       before do
         user.acquire(permission)
@@ -32,7 +32,7 @@ RSpec.describe ArticleController do
 
     context "with a create article permission in a WRONG account" do
       let(:another_account) { Account.new("Acme") }
-      let(:permission) { Permission.new(:create, Article, another_account) }
+      let(:permission) { Permission.new(:create_article, another_account) }
 
       before do
         user.acquire(permission)
@@ -44,7 +44,7 @@ RSpec.describe ArticleController do
     end
 
     context "with a create article permission in a SPECIFIC account" do
-      let(:permission) { Permission.new(:create, Article, account) }
+      let(:permission) { Permission.new(:create_article, account) }
 
       before do
         user.acquire(permission)

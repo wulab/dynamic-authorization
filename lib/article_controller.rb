@@ -10,8 +10,7 @@ class ArticleController
 
   def create
     @article = Article.new("Lorem ipsum")
-    account.publish(@article)
-    raise unless user.can?(:create, @article)
+    raise unless user.can?(:create_article, account)
     :ok
   rescue
     :unauthorized
