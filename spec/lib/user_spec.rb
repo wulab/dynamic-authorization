@@ -11,11 +11,11 @@ RSpec.describe User do
 
     subject { user.can?(:update, article) }
 
-    context "without any role or permission" do
+    context "with no roles or permissions" do
       it { is_expected.to be(false) }
     end
 
-    context "with a role that allows updating an article" do
+    context "with a valid role" do
       let(:role) { Role.new(:contributor) }
 
       before do
@@ -26,7 +26,7 @@ RSpec.describe User do
       it { is_expected.to be(true) }
     end
 
-    context "with an update article permission" do
+    context "with a valid permission" do
       let(:permission) { Permission.new(:update, article) }
 
       before do
@@ -36,7 +36,7 @@ RSpec.describe User do
       it { is_expected.to be(true) }
     end
 
-    context "with an insufficient role" do
+    context "with a wrong role" do
       let(:role) { Role.new(:approver) }
 
       before do
@@ -47,7 +47,7 @@ RSpec.describe User do
       it { is_expected.to be(false) }
     end
 
-    context "with an insufficient permission" do
+    context "with a wrong permission" do
       let(:permission) { Permission.new(:read, Article) }
 
       before do

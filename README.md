@@ -4,6 +4,7 @@ A prototype for the new authorization system in SmartSupport
 ## Installation
 
     $ bundle install
+    $ rspec --color --format doc
 
 ## Usage
 

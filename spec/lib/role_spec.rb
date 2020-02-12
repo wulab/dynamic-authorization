@@ -10,11 +10,11 @@ RSpec.describe Role do
 
     subject { role.allow?(:update, article) }
 
-    context "without an update article permission" do
+    context "with no permissions" do
       it { is_expected.to be(false) }
     end
 
-    context "with an update ANY article permission" do
+    context "with a general permission" do
       before do
         role.permit(:update, Article)
       end
@@ -22,7 +22,7 @@ RSpec.describe Role do
       it { is_expected.to be(true) }
     end
 
-    context "with an update SPECIFIC article permission" do
+    context "with a specific permission" do
       before do
         role.permit(:update, article)
       end
@@ -30,7 +30,7 @@ RSpec.describe Role do
       it { is_expected.to be(true) }
     end
 
-    context "with a WRONG update article permission" do
+    context "with a wrong permission" do
       let(:another_article) { Article.new("Dolor amet") }
 
       before do

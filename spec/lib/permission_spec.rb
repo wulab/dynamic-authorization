@@ -10,19 +10,19 @@ RSpec.describe Permission do
 
     subject { permission.allow?(:update, article) }
 
-    context "given a create article permission" do
+    context "given a wrong permission" do
       let(:permission) { described_class.new(:create, Article) }
 
       it { is_expected.to be(false) }
     end
 
-    context "given an update ANY article permission" do
+    context "given a general permission" do
       let(:permission) { described_class.new(:update, Article) }
 
       it { is_expected.to be(true) }
     end
 
-    context "given an update SPECIFIC article permission" do
+    context "given a specific permission" do
       let(:permission) { described_class.new(:update, article) }
 
       it { is_expected.to be(true) }

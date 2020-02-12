@@ -12,13 +12,13 @@ RSpec.describe ArticleController do
   describe "#create" do
     subject(:make_request!) { controller.create }
 
-    context "without any permission" do
+    context "with no permissions" do
       it "should respond with unauthorized" do
         expect(make_request!).to eq(:unauthorized)
       end
     end
 
-    context "with a create article permission in ANY account" do
+    context "with a general permission" do
       let(:permission) { Permission.new(:create_article, Account) }
 
       before do
@@ -30,7 +30,7 @@ RSpec.describe ArticleController do
       end
     end
 
-    context "with a create article permission in a WRONG account" do
+    context "with a wrong permission" do
       let(:another_account) { Account.new("Acme") }
       let(:permission) { Permission.new(:create_article, another_account) }
 
@@ -43,7 +43,7 @@ RSpec.describe ArticleController do
       end
     end
 
-    context "with a create article permission in a SPECIFIC account" do
+    context "with a specific permission" do
       let(:permission) { Permission.new(:create_article, account) }
 
       before do
