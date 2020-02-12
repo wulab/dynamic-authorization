@@ -1,15 +1,17 @@
 require_relative './article'
 
 class ArticleController
-  attr_reader :role
+  attr_reader :user, :account
 
-  def initialize(role)
-    @role = role
+  def initialize(user, account)
+    @user = user
+    @account = account
   end
 
   def create
     @article = Article.new("Lorem ipsum")
-    raise unless @role.allow?(:create, @article)
+    account.publish(@article)
+    raise unless user.can?(:create, @article)
     :ok
   rescue
     :unauthorized
