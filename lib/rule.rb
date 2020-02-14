@@ -33,11 +33,11 @@ class Rule
       key, value = rule.flatten
 
       if rule?(value)
-        rule_comply?(value, object.send(key))
+        object.respond_to?(key) && rule_comply?(value, object.send(key))
       elsif type?(value)
         object == value || object.class == value
       else
-        object.send(key) == value
+        object.respond_to?(key) && object.send(key) == value
       end
     else
       first = rule.slice(rule.keys[0])

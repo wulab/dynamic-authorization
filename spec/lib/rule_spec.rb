@@ -9,13 +9,13 @@ RSpec.describe Rule do
     context "initialized with a class" do
       let(:rule) { described_class.new(Article) }
 
-      context "given a wrong object" do
+      context "given a wrong object type" do
         let(:object) { Object }
 
         it { is_expected.to be(false) }
       end
 
-      context "given a correct object" do
+      context "given a correct object type" do
         let(:object) { Article }
 
         it { is_expected.to be(true) }
@@ -24,15 +24,17 @@ RSpec.describe Rule do
 
     context "initialized with an object" do
       let(:rule) { described_class.new(object) }
-      let(:object) { Article.new("Lorem ipsum") }
 
       context "given a wrong object" do
-        subject { rule.comply?(Article.new("Dolor sit amet")) }
+        subject { rule.comply?(another_object) }
+        let(:another_object) { Article.new("Lorem ipsum") }
 
         it { is_expected.to be(false) }
       end
 
       context "given a correct object" do
+        let(:object) { Article.new("Lorem ipsum") }
+
         it { is_expected.to be(true) }
       end
     end
@@ -40,13 +42,13 @@ RSpec.describe Rule do
     context "initialized with a general rule" do
       let(:rule) { described_class.new({ class: Article }) }
 
-      context "given a wrong object" do
+      context "given a wrong object type" do
         let(:object) { Object }
 
         it { is_expected.to be(false) }
       end
 
-      context "given a correct object" do
+      context "given a correct object type" do
         let(:object) { Article }
 
         it { is_expected.to be(true) }
@@ -55,18 +57,27 @@ RSpec.describe Rule do
 
     context "initialized with a rule containing attributes" do
       let(:rule) { described_class.new({ class: Article, id: 1 }) }
-      let(:object) { Article.new("Lorem ipsum") }
 
       context "given a wrong object" do
+        let(:object) { Article.new("Lorem ipsum") }
+
         it { is_expected.to be(false) }
       end
 
       context "given a correct object" do
+        let(:object) { Article.new("Lorem ipsum") }
+
         before do
           allow(object).to receive(:id).and_return(1)
         end
 
         it { is_expected.to be(true) }
+      end
+
+      context "given an object type" do
+        let(:object) { Article }
+
+        it { is_expected.to be(false) }
       end
     end
 
@@ -84,6 +95,12 @@ RSpec.describe Rule do
         end
 
         it { is_expected.to be(true) }
+      end
+
+      context "given an object type" do
+        let(:object) { Article }
+
+        it { is_expected.to be(false) }
       end
     end
 
@@ -103,6 +120,12 @@ RSpec.describe Rule do
         end
 
         it { is_expected.to be(true) }
+      end
+
+      context "given an object type" do
+        let(:object) { Article }
+
+        it { is_expected.to be(false) }
       end
     end
   end
