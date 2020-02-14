@@ -6,6 +6,10 @@ class User
     @permittables = []
   end
 
+  def id
+    object_id
+  end
+
   def acquire(role_or_permission)
     @permittables << role_or_permission
   end

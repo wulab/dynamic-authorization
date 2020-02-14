@@ -7,6 +7,10 @@ class Account
     @articles = []
   end
 
+  def id
+    object_id
+  end
+
   def publish(article)
     @articles << article
   end
