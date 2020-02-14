@@ -1,6 +1,6 @@
 class Article
   attr_reader :title
-  attr_accessor :published
+  attr_accessor :account, :published
 
   def initialize(title)
     @title = title

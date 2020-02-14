@@ -15,8 +15,8 @@ class Rule
   private
 
   def convert_to_repr(object)
-    return object if object.is_a?(Hash)
-    return { class: object } if object.is_a?(Class)
+    return object if rule?(object)
+    return { class: object } if type?(object)
 
     {
       class: object.class,
@@ -25,14 +25,32 @@ class Rule
   end
 
   def rule_comply?(rule, object)
-    if rule.length == 0
+    if object.nil?
+      rule.length == 0
+    elsif rule.length == 0
       true
     elsif rule.length == 1
-      rule.any? { |k, v| object == v || object.send(k) == v }
+      key, value = rule.flatten
+
+      if rule?(value)
+        rule_comply?(value, object.send(key))
+      elsif type?(value)
+        object == value || object.class == value
+      else
+        object.send(key) == value
+      end
     else
       first = rule.slice(rule.keys[0])
       rest = rule.slice(*rule.keys[1..-1])
       rule_comply?(first, object) && rule_comply?(rest, object)
     end
+  end
+
+  def rule?(rule)
+    rule.is_a?(Hash)
+  end
+
+  def type?(object)
+    object.is_a?(Class)
   end
 end

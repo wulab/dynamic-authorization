@@ -1,3 +1,4 @@
+require "./lib/account"
 require "./lib/article"
 require "./lib/rule"
 
@@ -80,6 +81,25 @@ RSpec.describe Rule do
       context "given a correct object" do
         before do
           object.published = true
+        end
+
+        it { is_expected.to be(true) }
+      end
+    end
+
+    context "initialized with a nested rule" do
+      let(:rule) do
+        described_class.new({ class: Article, account: { name: "Acme" } })
+      end
+      let(:object) { Article.new("Lorem ipsum") }
+
+      context "given a wrong object" do
+        it { is_expected.to be(false) }
+      end
+
+      context "given a correct object" do
+        before do
+          object.account = Account.new("Acme")
         end
 
         it { is_expected.to be(true) }
