@@ -20,10 +20,23 @@ RSpec.describe Rule do
 
         it { is_expected.to be(true) }
       end
+
+      context "given a wrong object" do
+        let(:object) { Account.new("Acme") }
+
+        it { is_expected.to be(false) }
+      end
+
+      context "given a correct object" do
+        let(:object) { Article.new("Lorem ipsum") }
+
+        it { is_expected.to be(true) }
+      end
     end
 
     context "initialized with an object" do
       let(:rule) { described_class.new(object) }
+      let(:object) { Article.new("Lorem ipsum") }
 
       context "given a wrong object" do
         subject { rule.comply?(another_object) }
@@ -33,8 +46,6 @@ RSpec.describe Rule do
       end
 
       context "given a correct object" do
-        let(:object) { Article.new("Lorem ipsum") }
-
         it { is_expected.to be(true) }
       end
     end
@@ -53,9 +64,21 @@ RSpec.describe Rule do
 
         it { is_expected.to be(true) }
       end
+
+      context "given a wrong object" do
+        let(:object) { Account.new("Acme") }
+
+        it { is_expected.to be(false) }
+      end
+
+      context "given a correct object" do
+        let(:object) { Article.new("Lorem ipsum") }
+
+        it { is_expected.to be(true) }
+      end
     end
 
-    context "initialized with a rule containing attributes" do
+    context "initialized with a specific rule using attributes" do
       let(:rule) { described_class.new({ class: Article, id: 1 }) }
 
       context "given a wrong object" do
@@ -81,7 +104,7 @@ RSpec.describe Rule do
       end
     end
 
-    context "initialized with a rule containing methods" do
+    context "initialized with a specific rule using methods" do
       let(:rule) { described_class.new({ class: Article, published?: true }) }
       let(:object) { Article.new("Lorem ipsum") }
 
@@ -104,7 +127,7 @@ RSpec.describe Rule do
       end
     end
 
-    context "initialized with a nested rule" do
+    context "initialized with a specific rule using nested attributes" do
       let(:rule) do
         described_class.new({ class: Article, account: { name: "Acme" } })
       end
