@@ -5,10 +5,10 @@ require "./lib/role"
 RSpec.describe Role do
   let(:role) { described_class.new(:contributor) }
 
-  describe "#allow?" do
+  describe "#permit?" do
     let(:article) { Article.new("Lorem ipsum") }
 
-    subject { role.allow?(:update, article) }
+    subject { role.permit?(:update, article) }
 
     context "with no permissions" do
       it { is_expected.to be(false) }

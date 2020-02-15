@@ -20,7 +20,7 @@ RSpec.describe User do
 
       before do
         role.permit(:update, article)
-        user.acquire(role)
+        user.assign(role)
       end
 
       it { is_expected.to be(true) }
@@ -30,7 +30,7 @@ RSpec.describe User do
       let(:permission) { Permission.new(:update, article) }
 
       before do
-        user.acquire(permission)
+        user.assign(permission)
       end
 
       it { is_expected.to be(true) }
@@ -41,7 +41,7 @@ RSpec.describe User do
 
       before do
         role.permit(:read, Article)
-        user.acquire(role)
+        user.assign(role)
       end
 
       it { is_expected.to be(false) }
@@ -51,7 +51,7 @@ RSpec.describe User do
       let(:permission) { Permission.new(:read, Article) }
 
       before do
-        user.acquire(permission)
+        user.assign(permission)
       end
 
       it { is_expected.to be(false) }

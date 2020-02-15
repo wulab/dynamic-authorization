@@ -4,11 +4,11 @@ require "./lib/permission"
 require "./lib/role"
 
 RSpec.describe Permission do
-  describe "#allow?" do
+  describe "#permit?" do
     let(:article) { Article.new("Lorem ipsum") }
     let(:account) { Account.new('Acme') }
 
-    subject { permission.allow?(:update, article) }
+    subject { permission.permit?(:update, article) }
 
     context "given a wrong permission" do
       let(:permission) { described_class.new(:create, Article) }

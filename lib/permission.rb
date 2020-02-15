@@ -11,7 +11,7 @@ class Permission
     @rule = Rule.new(object)
   end
 
-  def allow?(action, object)
+  def permit?(action, object)
     permitted_action == action.to_sym && rule.comply?(object)
   end
 end

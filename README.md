@@ -49,26 +49,26 @@ Although tedious but it seems to work, right? I doubt it. The problem is that th
 
 In the prototype, a role is just a collection of permissions so we define a permission first.
 
-    Permission.new(:update_article, account)
+    permission = Permission.new(:update_article, account)
 
 Then, we define roles that have the above permission.
 
     admin = Role.new(:admin)
     moderator = Role.new(:moderator)
-    admin.permit(:update_article, account)
-    moderator.permit(:update_article, account)
+    admin.assign(permission)
+    moderator.assign(permission)
 
 Which we could assign to a particular user.
 
     john = User.new("John")
-    john.acquire(moderator)
+    john.assign(moderator)
 
 Given we want to allow an Editor to update an article on the client account, we just need to add another role and assign it on another user.
 
     editor = Role.new(:editor)
     editor.permit(:update_article, account)
     jane = User.new("Jane")
-    jane.acquire(editor)
+    jane.assign(editor)
 
 ### Benefits over Pundit
 
@@ -107,15 +107,15 @@ Given we want to allow an Editor to update an article on the client account, we 
 ### Grant a permission
 
     >> permission = Permission.new(:create_article, account)
-    >> john.acquire(permission)
+    >> john.assign(permission)
     >> john.can?(:create_article, account)
     => true
 
 ### Assign a role
 
     >> role = Role.new(:contributor)
-    >> role.permit(:create_article, account)
-    >> jane.acquire(role)
+    >> role.assign(permission)
+    >> jane.assign(role)
     >> jane.can?(:create_article, account)
     => true
 

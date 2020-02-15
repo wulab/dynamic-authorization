@@ -22,7 +22,7 @@ RSpec.describe ArticleController do
       let(:permission) { Permission.new(:create_article, Account) }
 
       before do
-        user.acquire(permission)
+        user.assign(permission)
       end
 
       it "should respond with ok" do
@@ -35,7 +35,7 @@ RSpec.describe ArticleController do
       let(:permission) { Permission.new(:create_article, another_account) }
 
       before do
-        user.acquire(permission)
+        user.assign(permission)
       end
 
       it "should respond with ok" do
@@ -47,7 +47,7 @@ RSpec.describe ArticleController do
       let(:permission) { Permission.new(:create_article, account) }
 
       before do
-        user.acquire(permission)
+        user.assign(permission)
       end
 
       it "should respond with ok" do
