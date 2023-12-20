@@ -1,4 +1,4 @@
-# SmartSupport Authorization
+# Dynamic Authorization
 A prototype for the new authorization system in SmartSupport
 
 ## Background
